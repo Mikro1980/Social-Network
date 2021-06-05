@@ -1,0 +1,10 @@
+.friends{
+    margin: 40px 20px;
+}
+.friends a:nth-child(n+3){
+    margin-left: 7px;
+
+}
+.friends a{
+    font-size: small;
+}

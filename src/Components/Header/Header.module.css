@@ -1,0 +1,21 @@
+.header {
+    background-color: #e76f51;
+    height: 4rem;
+}
+
+.logoImg {
+    margin: 0.4rem 20px;
+    width: 47px;
+    height: 47px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+.logoImg img {
+    margin-left: -21px;
+    height: 100%;
+    transition: transform .4s ease-in-out;
+}
+
+.logoImg img:hover {
+    transform: rotate(220deg)
+}

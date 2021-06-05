@@ -1,0 +1,51 @@
+*{
+box-sizing:border-box;
+}
+.mainCon{
+    flex:80%;
+    display: flex;
+}
+.dialogsLeft{
+
+    background-color: #2a9d8f;
+    width: 30%;
+    height: 100%;
+
+
+}
+
+.dialogsRight{
+    right: 0;
+    height: 100%;
+    background-color: beige;
+    width: 70%;
+    color:black;
+}
+.person{
+    margin:5px;
+    padding: 5px;
+
+
+}
+.person a {
+   text-decoration: none;
+    color:white;
+}
+.myDialog{
+
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 1px 2px 5px black;
+    width:fit-content;
+    padding: 5px;
+    margin: 5px;
+}
+.active{
+
+   font-weight: bolder;
+}
+textarea{
+    margin:5px;
+
+
+}
