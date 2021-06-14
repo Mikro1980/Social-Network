@@ -24,9 +24,9 @@ export type  ProfilePageType = {
 export type DialogsPageType = {
     dialogs: Array<DialogType>
     messages: Array<MessageType>
-    addPost:()=>void
+
     newPostText:string
-    updateNewPostText:(newText:string)=>void
+
 }
 export type RootStateType = {
     profilePage: ProfilePageType
@@ -37,14 +37,7 @@ export type RootStateType = {
 export type sidebarType = {
     friendsArray: Array<SidebarType>
 }
-const addPost = () =>
-{let newPost={id:new Date().getTime(), msg:state.dialogsPage.newPostText};state.dialogsPage.messages.push(newPost);
-    renderEntireTree(state)
-}
-export let updateNewPostText = (newText:string) =>{
-    state.dialogsPage.newPostText = newText
-    renderEntireTree(state)
-}
+
 let state: RootStateType = {
     profilePage: {
         posts: [
@@ -85,9 +78,9 @@ let state: RootStateType = {
             {id: 1, msg: 'HI'},
             {id: 2, msg: "Hello!"},
             {id: 3, msg: "Hasta la vista!"}
-        ], addPost: addPost,
-        newPostText:'',
-        updateNewPostText: updateNewPostText
+        ],
+        newPostText:''
+
     },
     sidebar: {
         friendsArray: [
@@ -100,5 +93,12 @@ let state: RootStateType = {
     }
 
 }
-
+export const addPost = () =>
+{let newPost={id:new Date().getTime(), msg:state.dialogsPage.newPostText};state.dialogsPage.messages.push(newPost);
+    renderEntireTree(state)
+}
+export let updateNewPostText = (newText:string) =>{
+    state.dialogsPage.newPostText = newText
+    renderEntireTree(state)
+}
 export default state;

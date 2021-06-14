@@ -1,23 +1,29 @@
-import React, {useState} from "react";
+import React from "react";
 import classes from "./Dialogs.module.css";
 import DialogItem from "./DialogItem";
-import {DialogsPageType} from "../../redux/state";
+import {DialogsPageType, updateNewPostText, addPost} from "../../redux/state";
 
 type DialogProps = {
     dialogsPage: DialogsPageType
 }
 const Dialogs = (props: DialogProps) => {
     let newPostElement = React.createRef<HTMLTextAreaElement>();
-    let addPost = () => {
-        props.dialogsPage.addPost()
-        props.dialogsPage.updateNewPostText('');
+    let addPostHandle = () => {
+        addPost()
+        updateNewPostText('');
 
     }
     let onPostChange = () => {
         if (newPostElement.current) {
             let text = newPostElement.current?.value
-            props.dialogsPage.updateNewPostText(text);
+            updateNewPostText(text);
         }
+    }
+    let onKeyPressHandler = (e:React.KeyboardEvent<HTMLTextAreaElement>) =>{
+        if(e.charCode===13){
+            addPostHandle()
+        }
+      else return
     }
     let renderedPerson = props.dialogsPage.dialogs.map((p: any) => (
 
@@ -37,8 +43,9 @@ const Dialogs = (props: DialogProps) => {
                 <textarea ref={newPostElement}
                           value={props.dialogsPage.newPostText}
                           onChange={onPostChange}
-                ></textarea>
-                <button onClick={addPost}>send</button>
+                          onKeyPress={onKeyPressHandler}
+                />
+                <button onClick={addPostHandle}>send</button>
             </div>
         </div>
     )
