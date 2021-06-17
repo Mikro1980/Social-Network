@@ -1,7 +1,5 @@
-import React, {useState} from "react";
+import React from "react";
 import classes from './Posts.module.css'
-import MyPosts from "../MyPosts/MyPosts";
-
 
 const Posts = () => {
 
