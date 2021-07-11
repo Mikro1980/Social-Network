@@ -15,6 +15,7 @@ type AppProps = {
     store: StoreType
 }
 
+
 const App = (props: AppProps) => {
     return (
         <BrowserRouter>
@@ -23,15 +24,21 @@ const App = (props: AppProps) => {
                 <div className="mainCon">
                     <Sidebar friends={props.store._state.sidebar}/>
 
-                    <Route path="/Content" render={() => <Content profilePage={props.store._state.profilePage}/>}/>
-                    <Route path="/Dialogs" render={() => <Dialogs
-                        dialogsPage={props.store._state.dialogsPage}
-                        dispatch={props.store.dispatch.bind(props.store)}//если не сделать bind, this._state... будет undefined
+                    <Route path="/Content" render={() =>
+                        <Content profilePage={props.store._state.profilePage}
+                                 dispatch={props.store.dispatch.bind(props.store)}
 
-                        // before dispatch
-                        // updateNewPostText={props.store.updateNewPostText.bind(props.store)}
-                        // addPost={props.store.addPost.bind(props.store)}
-                    />}/>
+
+                        />}/>
+                    <Route path="/Dialogs" render={() =>
+                        <Dialogs
+                            dialogsPage={props.store._state.dialogsPage}
+                            dispatch={props.store.dispatch.bind(props.store)}//если не сделать bind, this._state... будет undefined
+
+                            // before dispatch
+                            // updateNewPostText={props.store.updateNewPostText.bind(props.store)}
+                            // addPost={props.store.addPost.bind(props.store)}
+                        />}/>
                     <Route path="/News" render={() => <News/>}/>
                     <Route path="/Music" render={() => <Music/>}/>
                     <Route path="/Settings" render={() => <Settings/>}/>

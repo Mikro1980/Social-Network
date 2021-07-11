@@ -3,6 +3,7 @@ import classes from './MyPosts.module.css';
 
 
 type messageType = {
+    id:number
     message: string
     src: string
     likes: number

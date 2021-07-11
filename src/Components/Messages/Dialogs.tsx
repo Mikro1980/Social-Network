@@ -5,39 +5,39 @@ import {
     DialogsPageType,
     MessageType,
     DialogType,
-    ActionTypes, addPostAC, updateNewPostAC
+    ActionTypes, addDialogAC, updateNewDialogAC
 } from "../../redux/state";
 
 type DialogProps = {
     dialogsPage: DialogsPageType
     // updateNewPostText: (newText: string) => void
     // addPost:()=>void
-    dispatch:(action:ActionTypes)=>void
+    dispatch: (action: ActionTypes) => void
 }
 const Dialogs = (props: DialogProps) => {
-    let newPostElement = React.createRef<HTMLTextAreaElement>();
+    let newDialogElement = React.createRef<HTMLTextAreaElement>();
 
-    const addPostHandler = () => {
+    const addDialogHandler = () => {
         // props.addPost()
         // props.dispatch({type:'ADD-POST'})
-        props.dispatch(addPostAC())
+        props.dispatch(addDialogAC())
     }
-    const onPostChange = () => {
-        if (newPostElement.current) {
-            let text = newPostElement.current.value
+    const onDialogChange = () => {
+        if (newDialogElement.current) {
+            let text = newDialogElement.current.value
             // props.updateNewPostText(text);
             // props.dispatch({type:'UPDATE-NEW-POST-TEXT',newText:text})
-            props.dispatch(updateNewPostAC(text))
+            props.dispatch(updateNewDialogAC(text))
         }
     }
     let onKeyPressHandler = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (e.code === 'Enter') {
-            addPostHandler()
+            addDialogHandler()
         } else return
     }
     let renderedPerson = props.dialogsPage.dialogs.map((p: DialogType) => (
 
-        <div className={classes.person}><DialogItem id={p.id} name={p.name}/></div>//см.коммент ниже
+        <div className={classes.person}><DialogItem key={p.id} id={p.id} name={p.name}/></div>//см.коммент ниже
     ));
     return (
         <div className={classes.mainCon}>
@@ -50,12 +50,12 @@ const Dialogs = (props: DialogProps) => {
                 {props.dialogsPage.messages.map((d: MessageType) => ( // тут используем МАР напрямую, без переменной
                     <div className={classes.myDialog}>{d.msg}</div>
                 ))}
-                <textarea ref={newPostElement}
-                          value={props.dialogsPage.newPostText}
-                          onChange={onPostChange}
+                <textarea ref={newDialogElement}
+                          value={props.dialogsPage.newDialog}
+                          onChange={onDialogChange}
                           onKeyPress={onKeyPressHandler}
                 />
-                <button onClick={addPostHandler}>send</button>
+                <button onClick={addDialogHandler}>send</button>
             </div>
         </div>
     )

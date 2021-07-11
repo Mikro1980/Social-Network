@@ -1,3 +1,4 @@
+
 export type StoreType = {
     _state: RootStateType
     _onChange: () => void
@@ -5,7 +6,6 @@ export type StoreType = {
     getState: () => RootStateType
     dispatch: (action: ActionTypes) => void
 }
-
 export type MessageType = {
     id: number
     msg: string
@@ -26,11 +26,12 @@ export type SidebarType = {
 }
 export type  ProfilePageType = {
     posts: Array<PostType>
+    newPost: string
 }
 export type DialogsPageType = {
     dialogs: Array<DialogType>
     messages: Array<MessageType>
-    newPostText: string
+    newDialog: string
 
 }
 export type RootStateType = {
@@ -42,21 +43,27 @@ export type RootStateType = {
 export type sidebarType = {
     friendsArray: Array<SidebarType>
 }
-// type AddPostActionType = {
-//     type: 'ADD-POST'
-// }
-// type AddPostActionType = ReturnType<typeof addPostAC>
-// type UpdateNewPostActionType = ReturnType<typeof updateNewPostAC>
-// type UpdateNewPostActionType = {
-//     type: 'UPDATE-NEW-POST-TEXT'
-//     newText: string
-// }
+
 export type ActionTypes =
+    ReturnType<typeof addDialogAC> | ReturnType<typeof updateNewDialogAC>|
     ReturnType<typeof addPostAC> | ReturnType<typeof updateNewPostAC>
 
+const ADD_DIALOG = 'ADD-DIALOG';
+const UPDATE_NEW_DIALOG_TEXT = 'UPDATE-NEW-DIALOG-TEXT';
 const ADD_POST = 'ADD-POST';
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
+const UPDATE_POST_TEXT = 'UPDATE-POST-TEXT';
 
+export const addDialogAC = () => {
+    return {
+        type: ADD_DIALOG
+    } as const
+}
+export const updateNewDialogAC = (newText: string) => {
+    return {
+        type: UPDATE_NEW_DIALOG_TEXT,
+        newText: newText
+    } as const
+}
 export const addPostAC = () => {
     return {
         type: ADD_POST
@@ -64,10 +71,11 @@ export const addPostAC = () => {
 }
 export const updateNewPostAC = (newText: string) => {
     return {
-        type: UPDATE_NEW_POST_TEXT,
+        type: UPDATE_POST_TEXT,
         newText: newText
     } as const
 }
+
 
 const store: StoreType = {
     _state: {
@@ -97,21 +105,21 @@ const store: StoreType = {
                     likes: 0
                 },
 
-            ]
+            ], newPost: ''
         },
         dialogsPage: {
             dialogs: [
                 {id: 1, name: "Mikhail"},
                 {id: 2, name: "Ivan"},
                 {id: 3, name: "Kirill"},
-                {id: 4, name: "Zirill"},
+                {id: 4, name: "Berill"},
             ],
             messages: [
                 {id: 1, msg: 'HI'},
                 {id: 2, msg: "Hello!"},
                 {id: 3, msg: "Hola!"}
             ],
-            newPostText: ''
+            newDialog: ''
 
         },
         sidebar: {
@@ -135,28 +143,45 @@ const store: StoreType = {
         return this._state
     },
     dispatch(action: ActionTypes) {
-
-
         switch (action.type) {
-            case ADD_POST: //вынесли в переменную
-                let newPost = {
+            case ADD_DIALOG: //вынесли в переменную
+                let newDialogMsg = {
                     id: new Date().getTime(),
-                    msg: this._state.dialogsPage.newPostText.trim()
+                    msg: this._state.dialogsPage.newDialog.trim()
                 };
-                if (newPost.msg) {
-                    this._state.dialogsPage.messages.push(newPost);
+                if (newDialogMsg.msg) {
+                    this._state.dialogsPage.messages.push(newDialogMsg);
                     this._onChange();
-                    this._state.dialogsPage.newPostText = ''
+                    this._state.dialogsPage.newDialog = ''
                 } else return;
                 break
-            case UPDATE_NEW_POST_TEXT://вынесли в переменную
-                this._state.dialogsPage.newPostText = action.newText;
-                if (action.newText.length > 100) {
+            case UPDATE_NEW_DIALOG_TEXT://вынесли в переменную
+                this._state.dialogsPage.newDialog = action.newText;
+                if (action.newText.length > 30) {
                     return
                 }
                 store._onChange()
                 break
-
+            case ADD_POST:
+                let newPostTxt = {
+                    id:new Date().getTime(),
+                    src: 'https://citaty.info/files/characters/636.jpg',
+                    message:this._state.profilePage.newPost.trim(),
+                    likes: 0
+                }
+                if(newPostTxt.message){
+                    this._state.profilePage.posts.push(newPostTxt);
+                    this._onChange();
+                    this._state.profilePage.newPost = ''
+                }else return;
+                break
+            case UPDATE_POST_TEXT://вынесли в переменную
+                this._state.profilePage.newPost = action.newText;
+                if (action.newText.length > 30) {
+                    return
+                }
+                store._onChange()
+                break
         }
     }
 }
