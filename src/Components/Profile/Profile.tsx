@@ -19,6 +19,7 @@ const Profile = (props: ProfilePropsType) => {
             src={p.src}
             message={p.message}
             likes={p.likes}
+            dispatch={props.dispatch}
         />
     ));
     return (

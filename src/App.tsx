@@ -15,26 +15,24 @@ type AppProps = {
     store: StoreType
 }
 
-
 const App = (props: AppProps) => {
     return (
         <BrowserRouter>
             <div className="App">
                 <Header/>
                 <div className="mainCon">
-                    <Sidebar friends={props.store._state.sidebar}/>
+                    <Sidebar friends={props.store.getState().sidebar}/>
 
                     <Route path="/Content" render={() =>
-                        <Content profilePage={props.store._state.profilePage}
+                        <Content profilePage={props.store.getState().profilePage}
                                  dispatch={props.store.dispatch.bind(props.store)}
 
 
                         />}/>
                     <Route path="/Dialogs" render={() =>
                         <Dialogs
-                            dialogsPage={props.store._state.dialogsPage}
+                            dialogsPage={props.store.getState().dialogsPage}
                             dispatch={props.store.dispatch.bind(props.store)}//если не сделать bind, this._state... будет undefined
-
                             // before dispatch
                             // updateNewPostText={props.store.updateNewPostText.bind(props.store)}
                             // addPost={props.store.addPost.bind(props.store)}
@@ -49,7 +47,6 @@ const App = (props: AppProps) => {
         </BrowserRouter>
     );
 }
-
 
 export default App;
 

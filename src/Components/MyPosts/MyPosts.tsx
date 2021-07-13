@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import classes from './MyPosts.module.css';
+import {ActionTypes, addLikeAC} from "../../redux/state";
 
 
 type messageType = {
@@ -7,20 +8,24 @@ type messageType = {
     message: string
     src: string
     likes: number
+    dispatch: (action: ActionTypes) => void
 
 }
 let myHeart = classes.heart;
-// let myLikes = classes.myLikes;
+let myLikes = classes.myLikes;
 const MyPosts = (props: messageType) => {
-    const [likes, setLikes] = useState(props.likes);
-
-    function countLikes() {
-        myHeart = classes.active
-        // myLikes = classes.myActiveLikes
-        setLikes(likes + 1)
-
-
+    // const [likes, setLikes] = useState(props.likes);
+    const addLikeHandler = () =>{
+        let id = props.id
+        props.dispatch(addLikeAC(id))
+        // myHeart = classes.active
     }
+
+    // function countLikes() {
+    //     myHeart = classes.active
+    //     // myLikes = classes.myActiveLikes
+    //     setLikes(likes + 1)
+    // }
 
     return (
         <div className={classes.postCon}>
@@ -29,8 +34,9 @@ const MyPosts = (props: messageType) => {
                     src={props.src} alt='avatar'/>
             </div>
             <div className={classes.messageSection}>{props.message}</div>
-            <div onClick={() => countLikes()} className={myHeart}> &#10084; </div>
-            {likes > 0 && <span className={classes.myActiveLikes}>{likes}</span>} {/*Если лайков 0, то ничего не отрисуется т.к.  в первой части выражения будет False*/}
+            <div onClick={addLikeHandler}
+                 className={props.likes>0?classes.active:myHeart}> &#10084; </div>  {/*нужно сделать, чтобы лайки не краснели, если по ним не кликали, даже если их больше 0*/}
+            {props.likes > 0 && <span className={classes.myActiveLikes}>{props.likes}</span>} {/*Если лайков 0, то ничего не отрисуется т.к.  в первой части выражения будет False*/}
 
 
         </div>

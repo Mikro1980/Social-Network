@@ -10,23 +10,17 @@ import {
 
 type DialogProps = {
     dialogsPage: DialogsPageType
-    // updateNewPostText: (newText: string) => void
-    // addPost:()=>void
     dispatch: (action: ActionTypes) => void
 }
 const Dialogs = (props: DialogProps) => {
     let newDialogElement = React.createRef<HTMLTextAreaElement>();
 
     const addDialogHandler = () => {
-        // props.addPost()
-        // props.dispatch({type:'ADD-POST'})
         props.dispatch(addDialogAC())
     }
     const onDialogChange = () => {
         if (newDialogElement.current) {
             let text = newDialogElement.current.value
-            // props.updateNewPostText(text);
-            // props.dispatch({type:'UPDATE-NEW-POST-TEXT',newText:text})
             props.dispatch(updateNewDialogAC(text))
         }
     }

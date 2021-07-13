@@ -1,7 +1,6 @@
-
 export type StoreType = {
     _state: RootStateType
-    _onChange: () => void
+    _callSubscriber: () => void
     subscribe: (callback: () => void) => void
     getState: () => RootStateType
     dispatch: (action: ActionTypes) => void
@@ -19,12 +18,13 @@ export type PostType = {
     src: string
     message: string
     likes: number
+
 }
 export type SidebarType = {
     id: number
     name: string
 }
-export type  ProfilePageType = {
+export type ProfilePageType = {
     posts: Array<PostType>
     newPost: string
 }
@@ -45,13 +45,15 @@ export type sidebarType = {
 }
 
 export type ActionTypes =
-    ReturnType<typeof addDialogAC> | ReturnType<typeof updateNewDialogAC>|
-    ReturnType<typeof addPostAC> | ReturnType<typeof updateNewPostAC>
+    ReturnType<typeof addDialogAC> | ReturnType<typeof updateNewDialogAC> |
+    ReturnType<typeof addPostAC> | ReturnType<typeof updateNewPostAC>|
+    ReturnType<typeof addLikeAC>
 
 const ADD_DIALOG = 'ADD-DIALOG';
 const UPDATE_NEW_DIALOG_TEXT = 'UPDATE-NEW-DIALOG-TEXT';
 const ADD_POST = 'ADD-POST';
 const UPDATE_POST_TEXT = 'UPDATE-POST-TEXT';
+const ADD_LIKE = 'ADD-LIKE';
 
 export const addDialogAC = () => {
     return {
@@ -69,13 +71,18 @@ export const addPostAC = () => {
         type: ADD_POST
     } as const
 }
+export const addLikeAC = (id:number) => {
+    return {
+        type: ADD_LIKE,
+        id:id
+    } as const
+}
 export const updateNewPostAC = (newText: string) => {
     return {
         type: UPDATE_POST_TEXT,
         newText: newText
     } as const
 }
-
 
 const store: StoreType = {
     _state: {
@@ -133,11 +140,11 @@ const store: StoreType = {
         }
 
     },
-    _onChange() {
+    _callSubscriber() {
         console.log('state changed')
     },
-    subscribe(callback: () => void) {
-        this._onChange = callback
+    subscribe(observer: () => void) {
+        this._callSubscriber = observer
     },
     getState() {
         return this._state
@@ -151,7 +158,7 @@ const store: StoreType = {
                 };
                 if (newDialogMsg.msg) {
                     this._state.dialogsPage.messages.push(newDialogMsg);
-                    this._onChange();
+                    this._callSubscriber();
                     this._state.dialogsPage.newDialog = ''
                 } else return;
                 break
@@ -160,27 +167,32 @@ const store: StoreType = {
                 if (action.newText.length > 30) {
                     return
                 }
-                store._onChange()
+                store._callSubscriber()
                 break
             case ADD_POST:
                 let newPostTxt = {
-                    id:new Date().getTime(),
+                    id: new Date().getTime(),
                     src: 'https://citaty.info/files/characters/636.jpg',
-                    message:this._state.profilePage.newPost.trim(),
+                    message: this._state.profilePage.newPost.trim(),
                     likes: 0
                 }
-                if(newPostTxt.message){
+                if (newPostTxt.message) {
                     this._state.profilePage.posts.push(newPostTxt);
-                    this._onChange();
+                    this._callSubscriber();
                     this._state.profilePage.newPost = ''
-                }else return;
+                } else return;
                 break
             case UPDATE_POST_TEXT://вынесли в переменную
                 this._state.profilePage.newPost = action.newText;
                 if (action.newText.length > 30) {
                     return
                 }
-                store._onChange()
+                store._callSubscriber()
+                break
+            case ADD_LIKE:
+                let clickedPost = this._state.profilePage.posts.filter(el=>el.id === action.id);
+                clickedPost[0].likes +=1 // понять, почему [0]
+                store._callSubscriber()
                 break
         }
     }
