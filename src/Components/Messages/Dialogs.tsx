@@ -5,8 +5,9 @@ import {
     DialogsPageType,
     MessageType,
     DialogType,
-    ActionTypes, addDialogAC, updateNewDialogAC
+    ActionTypes,
 } from "../../redux/state";
+import {addDialogAC, updateNewDialogAC} from "../../redux/dialogs-reducer";
 
 type DialogProps = {
     dialogsPage: DialogsPageType
@@ -31,7 +32,7 @@ const Dialogs = (props: DialogProps) => {
     }
     let renderedPerson = props.dialogsPage.dialogs.map((p: DialogType) => (
 
-        <div className={classes.person}><DialogItem key={p.id} id={p.id} name={p.name}/></div>//см.коммент ниже
+        <div key={p.id} className={classes.person}><DialogItem id={p.id} name={p.name}/></div>//см.коммент ниже
     ));
     return (
         <div className={classes.mainCon}>

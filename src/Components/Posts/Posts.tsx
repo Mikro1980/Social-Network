@@ -2,8 +2,10 @@ import React from "react";
 import classes from './Posts.module.css'
 import {
     ProfilePageType,
-    ActionTypes, addPostAC, updateNewPostAC
+    ActionTypes
+
 } from "../../redux/state";
+import {addPostAC, updateNewPostAC} from "../../redux/profile-reducer";
 
 type PostProps = {
     profilePage: ProfilePageType
@@ -15,8 +17,6 @@ const Posts = (props: PostProps) => {
     let newPostElement = React.createRef<HTMLTextAreaElement>();
     const addPostHandler = () => {
         props.dispatch(addPostAC())
-        // let text = newPostElement.current?.value;
-        // alert(text)
     }
     const onPostChange = () => {
         if (newPostElement.current) {
