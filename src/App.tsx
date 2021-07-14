@@ -9,7 +9,7 @@ import Music from "./Components/Music/Music";
 import Settings from "./Components/Settings/Settings";
 import {BrowserRouter, Route} from "react-router-dom";
 import News from "./Components/News/News";
-import {StoreType} from "./redux/state";
+import {StoreType} from "./redux/redux-store";
 
 type AppProps = {
     store: StoreType

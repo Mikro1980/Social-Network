@@ -3,7 +3,9 @@ import classes from "./Profile.module.css"
 import MyPosts from "../MyPosts/MyPosts";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import Posts from "../Posts/Posts";
-import {ActionTypes, PostType, ProfilePageType} from "../../redux/state";
+import {
+    PostType, ProfilePageType} from "../../redux/redux-store";
+import {ActionTypes} from "../../redux/dialogs-reducer";
 
 type ProfilePropsType = {
     profilePage:ProfilePageType

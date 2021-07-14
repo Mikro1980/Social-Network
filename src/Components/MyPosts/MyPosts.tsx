@@ -1,7 +1,8 @@
 import React, {useState} from "react";
 import classes from './MyPosts.module.css';
-import {ActionTypes} from "../../redux/state";
+
 import {addLikeAC} from "../../redux/profile-reducer";
+import {ActionTypes} from "../../redux/dialogs-reducer";
 
 
 type messageType = {

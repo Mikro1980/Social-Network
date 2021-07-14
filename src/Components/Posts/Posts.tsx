@@ -1,11 +1,9 @@
 import React from "react";
 import classes from './Posts.module.css'
-import {
-    ProfilePageType,
-    ActionTypes
 
-} from "../../redux/state";
 import {addPostAC, updateNewPostAC} from "../../redux/profile-reducer";
+import {ProfilePageType} from "../../redux/redux-store";
+import {ActionTypes} from "../../redux/dialogs-reducer";
 
 type PostProps = {
     profilePage: ProfilePageType
@@ -13,7 +11,6 @@ type PostProps = {
 }
 
 const Posts = (props: PostProps) => {
-
     let newPostElement = React.createRef<HTMLTextAreaElement>();
     const addPostHandler = () => {
         props.dispatch(addPostAC())
@@ -32,8 +29,6 @@ const Posts = (props: PostProps) => {
     return (
         <div className={classes.posts}>
             <h3>My posts</h3>
-
-
             <textarea ref={newPostElement}
                       value={props.profilePage.newPost}
                       onChange={onPostChange}
@@ -41,8 +36,6 @@ const Posts = (props: PostProps) => {
             />
             <button onClick={addPostHandler}>Send
             </button>
-
-
         </div>
     )
 }

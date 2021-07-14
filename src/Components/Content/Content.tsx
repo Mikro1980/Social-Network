@@ -1,7 +1,8 @@
 import React from "react";
 import Profile from "../Profile/Profile";
 import classes from "./Content.module.css"
-import {ActionTypes, ProfilePageType} from "../../redux/state";
+import { ProfilePageType} from "../../redux/redux-store";
+import {ActionTypes} from "../../redux/dialogs-reducer";
 
 type ContentPropType = {
     profilePage:ProfilePageType

@@ -1,12 +1,40 @@
-import {ProfilePageType} from "./state";
+import {ProfilePageType} from "./redux-store";
 
 
 export type ActionTypes =
-
     ReturnType<typeof addPostAC> | ReturnType<typeof updateNewPostAC> |
     ReturnType<typeof addLikeAC>
 
-export const profileReducer = (state: ProfilePageType, action: ActionTypes) => {
+let initialState = {
+    posts: [
+        {
+            id: 1,
+            src: 'https://w7.pngwing.com/pngs/1001/371/png-transparent-nelson-muntz-barney-gumble-bart-simpson-edna-krabappel-bullying-bart-simpson-springfield-vertebrate-smiley.png',
+            message: 'Haa Haa!',
+            likes: 0
+        },
+        {
+            id: 2,
+            src: 'https://image.winudf.com/v2/image/Y29tLmFuZHJvbW8uZGV2NjYwNjE0LmFwcDc0Nzc3M19zY3JlZW5fMl8xNTE5MzM3ODAwXzA3MA/screen-2.jpg?fakeurl=1&type=.jpg',
+            message: 'Hey, caramba!',
+            likes: 56
+        },
+        {
+            id: 3,
+            src: 'https://giantbomb1.cbsistatic.com/uploads/square_small/0/5201/229734-ralphnose.jpg',
+            message: 'Hello!',
+            likes: 0
+        }, {
+            id: 4,
+            src: 'https://citaty.info/files/characters/636.jpg',
+            message: 'Mmmmm...!',
+            likes: 0
+        },
+
+    ], newPost: ''
+}
+
+export const profileReducer = (state: ProfilePageType = initialState, action: ActionTypes) => {
 
     if (action.type === ADD_POST) {
         let newPostTxt = {

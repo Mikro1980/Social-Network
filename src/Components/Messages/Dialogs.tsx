@@ -5,9 +5,9 @@ import {
     DialogsPageType,
     MessageType,
     DialogType,
-    ActionTypes,
-} from "../../redux/state";
-import {addDialogAC, updateNewDialogAC} from "../../redux/dialogs-reducer";
+
+} from "../../redux/redux-store";
+import {ActionTypes, addDialogAC, updateNewDialogAC} from "../../redux/dialogs-reducer";
 
 type DialogProps = {
     dialogsPage: DialogsPageType
