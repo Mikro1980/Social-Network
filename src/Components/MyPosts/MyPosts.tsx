@@ -14,7 +14,7 @@ type messageType = {
 
 }
 let myHeart = classes.heart;
-let myLikes = classes.myLikes;
+// let myLikes = classes.myLikes;
 const MyPosts = (props: messageType) => {
     // const [likes, setLikes] = useState(props.likes);
     const addLikeHandler = () =>{

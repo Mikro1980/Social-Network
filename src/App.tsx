@@ -10,9 +10,14 @@ import Settings from "./Components/Settings/Settings";
 import {BrowserRouter, Route} from "react-router-dom";
 import News from "./Components/News/News";
 import {StoreType} from "./redux/redux-store";
+import {ActionTypes} from "./redux/dialogs-reducer";
+import DialogsContainer from "./Components/Messages/DialogsContainer";
+
 
 type AppProps = {
     store: StoreType
+    // dispatch: (type: ActionTypes) => void
+
 }
 
 const App = (props: AppProps) => {
@@ -26,13 +31,16 @@ const App = (props: AppProps) => {
                     <Route path="/Content" render={() =>
                         <Content profilePage={props.store.getState().profilePage}
                                  dispatch={props.store.dispatch.bind(props.store)}
+                                 store={props.store}
 
 
                         />}/>
                     <Route path="/Dialogs" render={() =>
-                        <Dialogs
-                            dialogsPage={props.store.getState().dialogsPage}
-                            dispatch={props.store.dispatch.bind(props.store)}//если не сделать bind, this._state... будет undefined
+                        <DialogsContainer
+                            store={props.store}
+                            // dialogsPage={props.store.getState().dialogsPage}
+                            // dispatch={props.store.dispatch.bind(props.store)}
+                            //если не сделать bind, this._state... будет undefined
                             // before dispatch
                             // updateNewPostText={props.store.updateNewPostText.bind(props.store)}
                             // addPost={props.store.addPost.bind(props.store)}

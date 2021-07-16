@@ -10,19 +10,23 @@ import {
 import {ActionTypes, addDialogAC, updateNewDialogAC} from "../../redux/dialogs-reducer";
 
 type DialogProps = {
-    dialogsPage: DialogsPageType
-    dispatch: (action: ActionTypes) => void
+    addDialog:()=>void
+    changeDialog:(text:string)=>void
+    dialogs:any
+    value:any
+    messages:any
+
 }
 const Dialogs = (props: DialogProps) => {
     let newDialogElement = React.createRef<HTMLTextAreaElement>();
 
     const addDialogHandler = () => {
-        props.dispatch(addDialogAC())
+        props.addDialog();
     }
     const onDialogChange = () => {
         if (newDialogElement.current) {
             let text = newDialogElement.current.value
-            props.dispatch(updateNewDialogAC(text))
+            props.changeDialog(text)
         }
     }
     let onKeyPressHandler = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -30,7 +34,7 @@ const Dialogs = (props: DialogProps) => {
             addDialogHandler()
         } else return
     }
-    let renderedPerson = props.dialogsPage.dialogs.map((p: DialogType) => (
+    let renderedPerson = props.dialogs.map((p: DialogType) => (
 
         <div key={p.id} className={classes.person}><DialogItem id={p.id} name={p.name}/></div>//см.коммент ниже
     ));
@@ -42,11 +46,11 @@ const Dialogs = (props: DialogProps) => {
                 {renderedPerson}
             </div>
             <div className={classes.dialogsRight}>
-                {props.dialogsPage.messages.map((d: MessageType) => ( // тут используем МАР напрямую, без переменной
+                {props.messages.map((d: MessageType) => ( // тут используем МАР напрямую, без переменной
                     <div className={classes.myDialog}>{d.msg}</div>
                 ))}
                 <textarea ref={newDialogElement}
-                          value={props.dialogsPage.newDialog}
+                          value={props.value}
                           onChange={onDialogChange}
                           onKeyPress={onKeyPressHandler}
                 />

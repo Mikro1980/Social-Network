@@ -1,24 +1,21 @@
 import React from "react";
 import classes from './Posts.module.css'
 
-import {addPostAC, updateNewPostAC} from "../../redux/profile-reducer";
-import {ProfilePageType} from "../../redux/redux-store";
-import {ActionTypes} from "../../redux/dialogs-reducer";
-
-type PostProps = {
-    profilePage: ProfilePageType
-    dispatch: (action: ActionTypes) => void
+type PostPropsType = {
+    addPost: () => void
+    onPostChange: (text: string) => void
+    newPost: any
 }
 
-const Posts = (props: PostProps) => {
+
+const Posts = (props: PostPropsType) => {
     let newPostElement = React.createRef<HTMLTextAreaElement>();
-    const addPostHandler = () => {
-        props.dispatch(addPostAC())
-    }
+
+    const addPostHandler = props.addPost
     const onPostChange = () => {
         if (newPostElement.current) {
             let text = newPostElement.current.value
-            props.dispatch(updateNewPostAC(text))
+            props.onPostChange(text)
         }
     }
     const onKeyPressHandler = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -30,7 +27,7 @@ const Posts = (props: PostProps) => {
         <div className={classes.posts}>
             <h3>My posts</h3>
             <textarea ref={newPostElement}
-                      value={props.profilePage.newPost}
+                      value={props.newPost}
                       onChange={onPostChange}
                       onKeyPress={onKeyPressHandler}
             />

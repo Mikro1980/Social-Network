@@ -4,12 +4,15 @@ import MyPosts from "../MyPosts/MyPosts";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import Posts from "../Posts/Posts";
 import {
-    PostType, ProfilePageType} from "../../redux/redux-store";
+    PostType, ProfilePageType, StoreType
+} from "../../redux/redux-store";
 import {ActionTypes} from "../../redux/dialogs-reducer";
+import PostsContainer from "../Posts/PostsContainer";
 
 type ProfilePropsType = {
-    profilePage:ProfilePageType
-    dispatch:(action:ActionTypes)=>void
+    profilePage: ProfilePageType
+    store: StoreType
+    dispatch: (type: ActionTypes) => void
 }
 
 const Profile = (props: ProfilePropsType) => {
@@ -28,9 +31,10 @@ const Profile = (props: ProfilePropsType) => {
         <div className={classes.profileImg}>
             <div className={classes.profileMain}>
                 <ProfileInfo/>
-                <Posts
-                    profilePage={props.profilePage}
-                    dispatch={props.dispatch}
+                <PostsContainer
+                    // profilePage={props.profilePage}
+                    store={props.store}
+                    // newPost={props.profilePage.newPost}
                 />
                 {renderedItem}
             </div>

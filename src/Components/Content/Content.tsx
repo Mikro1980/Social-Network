@@ -1,12 +1,13 @@
 import React from "react";
 import Profile from "../Profile/Profile";
 import classes from "./Content.module.css"
-import { ProfilePageType} from "../../redux/redux-store";
+import {ProfilePageType, StoreType} from "../../redux/redux-store";
 import {ActionTypes} from "../../redux/dialogs-reducer";
 
 type ContentPropType = {
     profilePage:ProfilePageType
     dispatch:(action:ActionTypes)=>void
+    store:StoreType
 }
 const Content = (props:ContentPropType) => {
     return (
@@ -17,6 +18,7 @@ const Content = (props:ContentPropType) => {
                     alt=""/>
             </div>
             <Profile profilePage={props.profilePage}
+                     store={props.store}
                      dispatch={props.dispatch}
 
             />
