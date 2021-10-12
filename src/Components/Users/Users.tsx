@@ -12,24 +12,45 @@ type UserPropsType = {
     setUsers: (users: Array<UsersType>) => void
 }
 
-class UsersC extends React.Component<any, any> {
+class UsersAPIComponent extends React.Component<any, any> {
 
-    constructor(props: UserPropsType) {
-        super(props);
-        axios.get('https://social-network.samuraijs.com/api/1.0/users').then(response => {
-
-            props.setUsers(response.data.items)
+    componentDidMount() {
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=
+        ${this.props.pageSize}`)
+            .then(response => {
+            this.props.setUsers(response.data.items);
+            this.props.setTotalUsersCount(response.data.totalCount)
         });
-
+    }
+    onPageChanged = (pageNumber:number) => {
+        this.props.changePage(pageNumber);
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=
+        ${this.props.pageSize}`)
+            .then(response => {
+                this.props.setUsers(response.data.items)
+            });
 
     }
 
     render() {
-
+        let pagesCount = Math.ceil(this.props.totalUsersCount / this.props.pageSize) //Math.ceil округляет в большую сторону// const addedPage = (num: number) => {
+        let pages = []
+        for (let i = 1; i <= pagesCount; i++) {
+            pages.push(i)
+        }
         return (
             <div className={classes.mainCon}>
+                <div>
+                    {pages.map(el => {
+                        return <span
+                            onClick={(e)=>{this.onPageChanged(el)
+                           }
+                            }
+                            className={this.props.currentPage === el ? classes.selectedPage : classes.pageNum}>{el}</span>
+                    })}
+                </div>
                 <div className={classes.dialogsLeft}>
-                    {this.props.users.map((el:UsersType) =>
+                    {this.props.users.map((el: UsersType) =>
                         <div key={el.id}>
                             <div className={classes.box}>
                                 <div className={classes.avaSec}>
@@ -40,7 +61,7 @@ class UsersC extends React.Component<any, any> {
                             {el.followed ?
                                 <button onClick={() => {
                                     this.props.unfollow(el.id)
-                                }}>Follow me</button> :
+                                }}>Follow</button> :
                                 <button onClick={() => {
                                     this.props.follow(el.id)
                                 }}>Unfollow</button>
@@ -56,8 +77,8 @@ class UsersC extends React.Component<any, any> {
                     }
                 </div>
             </div>
-
         )
     }
 }
-export default UsersC;
+
+export default UsersAPIComponent;
