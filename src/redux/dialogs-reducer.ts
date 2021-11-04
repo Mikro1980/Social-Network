@@ -1,11 +1,11 @@
-import { DialogsPageType} from "./redux-store";
+import {DialogsPageType} from "./redux-store";
 
 let initialState = {
     dialogs: [
-        {id: 1, name: "Mikhail"},
+        {id: 1, name: "Mihahail"},
         {id: 2, name: "Ivan"},
         {id: 3, name: "Kirill"},
-        {id: 4, name: "Berill"},
+        {id: 4, name: "Max"},
     ],
     messages: [
         {id: 1, msg: 'HI'},
@@ -14,21 +14,27 @@ let initialState = {
     ],
     newDialog: ''
 }
-const dialogsReducer = (state: DialogsPageType=initialState, action: ActionTypes) => {
+const dialogsReducer = (state: DialogsPageType = initialState, action: ActionTypes): DialogsPageType => {
     if (action.type === ADD_DIALOG) {
         let newDialogMsg = {
             id: new Date().getTime(),
             msg: state.newDialog.trim()
         };
         if (newDialogMsg.msg) {
-            state.messages.push(newDialogMsg);
-            state.newDialog = ''
-        } else return;
+            return {
+                ...state,
+                messages: [...state.messages, newDialogMsg],
+                newDialog: ''
+            }
+            // stateCopy.messages.push(newDialogMsg);
+            // stateCopy.newDialog = ''
+        } else return state;
     } else if (action.type === UPDATE_NEW_DIALOG_TEXT) {
-        state.newDialog = action.newText;
-        if (action.newText.length > 30) {
-            return
+        return {
+            ...state,
+            newDialog: action.newText
         }
+
     }
     return state
 }

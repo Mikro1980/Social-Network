@@ -2,8 +2,7 @@ import React from "react";
 import classes from "./Profile.module.css"
 import MyPosts from "../MyPosts/MyPosts";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
-import Posts from "../Posts/Posts";
-import {
+import store, {
     PostType, ProfilePageType, StoreType
 } from "../../redux/redux-store";
 import {ActionTypes} from "../../redux/dialogs-reducer";
@@ -13,11 +12,13 @@ type ProfilePropsType = {
     profilePage: ProfilePageType
     store: StoreType
     dispatch: (type: ActionTypes) => void
+    profile:any
 }
 
 const Profile = (props: ProfilePropsType) => {
 
-    let renderedItem = props.profilePage.posts.map((p: PostType) => (
+    // @ts-ignore
+    let renderedItem = store.getState().profilePage.posts.map((p: PostType) => (
         <MyPosts
             key={p.id}
             id={p.id}
@@ -30,7 +31,7 @@ const Profile = (props: ProfilePropsType) => {
     return (
         <div className={classes.profileImg}>
             <div className={classes.profileMain}>
-                <ProfileInfo/>
+                <ProfileInfo profile={props.profile}/>
                 <PostsContainer
                     // profilePage={props.profilePage}
                     store={props.store}

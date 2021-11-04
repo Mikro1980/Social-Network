@@ -3,43 +3,48 @@ import classes from "./Profile.module.css"
 import MyPosts from "../MyPosts/MyPosts";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import {
-    PostType, ProfilePageType, StoreType
+    AppStateType,
+    PostType, ProfilePageType, StoreType, UsersType
 } from "../../redux/redux-store";
 import {ActionTypes} from "../../redux/dialogs-reducer";
 import PostsContainer from "../Posts/PostsContainer";
+import Profile from "./Profile";
+import axios from "axios";
+import {connect} from "react-redux";
+import {setUserProfileAC} from "../../redux/profile-reducer";
+import {withRouter} from "react-router-dom";
+import {usersAPI} from "../../api/api";
 
 type ProfilePropsType = {
     profilePage: ProfilePageType
     store: StoreType
     dispatch: (type: ActionTypes) => void
+    profile: any
 }
 
-const Profile = (props: ProfilePropsType) => {
+class ProfileContainer extends React.Component<any, StoreType> {
 
-    let renderedItem = props.profilePage.posts.map((p: PostType) => (
-        <MyPosts
-            key={p.id}
-            id={p.id}
-            src={p.src}
-            message={p.message}
-            likes={p.likes}
-            dispatch={props.dispatch}
+    componentDidMount() {
+        let userId = this.props.match.params.userId
+        usersAPI.getUserId(userId).then(response => {
+                this.props.setUserProfileAC(response.data);
+            });
+    }
+
+    render() {
+        // @ts-ignore
+        return <Profile
+            {...this.props} profile={this.props.profile}
+            // profilePage={this.props.profilePage}
+            //             store={this.props.store}
+            //             dispatch={this.props.dispatch}
+            //             profile={this.props.profile}
         />
-    ));
-    return (
-        <div className={classes.profileImg}>
-            <div className={classes.profileMain}>
-                <ProfileInfo/>
-                <PostsContainer
-                    // profilePage={props.profilePage}
-                    store={props.store}
-                    // newPost={props.profilePage.newPost}
-                />
-                {renderedItem}
-            </div>
-        </div>
-    )
+    }
 }
 
-
-export default Profile;
+let mapStateToProps = (state: any) => ({
+    profile: state.profilePage.profile
+})
+let withURLDataContainerComponent = withRouter(ProfileContainer)
+export default connect(mapStateToProps, {setUserProfileAC})(withURLDataContainerComponent);

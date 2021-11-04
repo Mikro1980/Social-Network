@@ -3,7 +3,7 @@ import {ProfilePageType} from "./redux-store";
 
 export type ActionTypes =
     ReturnType<typeof addPostAC> | ReturnType<typeof updateNewPostAC> |
-    ReturnType<typeof addLikeAC>
+    ReturnType<typeof addLikeAC> | ReturnType<typeof setUserProfileAC>
 
 let initialState = {
     posts: [
@@ -11,7 +11,7 @@ let initialState = {
             id: 1,
             src: 'https://w7.pngwing.com/pngs/1001/371/png-transparent-nelson-muntz-barney-gumble-bart-simpson-edna-krabappel-bullying-bart-simpson-springfield-vertebrate-smiley.png',
             message: 'Haa Haa!',
-            likes: 0
+            likes: 999
         },
         {
             id: 2,
@@ -24,14 +24,16 @@ let initialState = {
             src: 'https://giantbomb1.cbsistatic.com/uploads/square_small/0/5201/229734-ralphnose.jpg',
             message: 'Hello!',
             likes: 0
-        }, {
+        },
+        {
             id: 4,
             src: 'https://citaty.info/files/characters/636.jpg',
             message: 'Mmmmm...!',
             likes: 0
         },
-
-    ], newPost: ''
+    ],
+    newPost: '',
+    profile: null
 }
 
 export const profileReducer = (state: ProfilePageType = initialState, action: ActionTypes) => {
@@ -44,27 +46,43 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
             likes: 0
         }
         if (newPostTxt.message) {
-            state.posts.push(newPostTxt);
-            state.newPost = ''
+            return {
+                ...state,
+                posts: [...state.posts, newPostTxt],
+                newPost: ''
+            }
+            // stateCopy.posts.push(newPostTxt);
+            // stateCopy.newPost = ''
         } else return;
     } else if (action.type === UPDATE_POST_TEXT) {
-        state.newPost = action.newText;
-        if (action.newText.length > 30) {
-            return
-        }
-        return state
-    } else if (action.type === ADD_LIKE) {
-        let clickedPost = state.posts.filter(el => el.id === action.id);
-        clickedPost[0].likes = clickedPost[0].likes + 1
-    }
-    return state
 
+        return {
+            ...state,
+            newPost: action.newText
+        }
+    } else if (action.type === ADD_LIKE) {
+        let copyState = {...state}
+        let clickedPost = copyState.posts.filter(el => el.id === action.id);
+        clickedPost[0].likes = clickedPost[0].likes + 1
+    } else if (action.type === SET_USER_PROFILE) {
+        return {...state, profile: action.profile}
+
+    }
+
+    return state
 }
 
 const ADD_POST = 'ADD-POST';
 const UPDATE_POST_TEXT = 'UPDATE-POST-TEXT';
 const ADD_LIKE = 'ADD-LIKE';
+const SET_USER_PROFILE = 'SET-USER-PROFILE'
 
+export const setUserProfileAC = (profile: any) => {
+    return {
+        type: SET_USER_PROFILE,
+        profile: profile
+    } as const
+}
 export const addPostAC = () => {
     return {
         type: ADD_POST
@@ -82,4 +100,5 @@ export const updateNewPostAC = (newText: string) => {
         newText: newText
     } as const
 }
+
 export default profileReducer;

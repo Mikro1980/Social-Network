@@ -13,8 +13,8 @@ const Sidebar = (props:any) => {
             <div className={classes.item}><NavLink to="/News" activeClassName={classes.active}>News</NavLink></div>
             <div className={classes.item}><NavLink to="/Music" activeClassName={classes.active}>Music</NavLink></div>
             <div className={classes.item}><NavLink to="/Settings" activeClassName={classes.active}>Settings</NavLink></div>
+            <div className={classes.item}><NavLink to="/Users" activeClassName={classes.active}>Users</NavLink></div>
             <Friends friends={props.friends}/>
-
         </div>
     )
 }

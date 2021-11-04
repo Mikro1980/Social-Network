@@ -1,6 +1,6 @@
 .header {
     background-color: #e76f51;
-    height: 4rem;
+    height: 5rem;
 }
 
 .logoImg {
@@ -18,4 +18,18 @@
 
 .logoImg img:hover {
     transform: rotate(220deg)
+}
+.loginBlock{
+    float: right;
+    color:white;
+    margin-right: 10px;
+
+}
+.loginBlock a{
+    color: white;
+    text-decoration: none;
+
+}
+.loginBlock a:hover{
+    font-weight: bold;
 }

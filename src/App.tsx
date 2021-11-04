@@ -4,55 +4,44 @@ import Header from "./Components/Header/Header";
 import Sidebar from "./Components/Sidebar/Sidebar";
 import Footer from "./Components/Footer/Footer";
 import Content from "./Components/Content/Content";
-import Dialogs from "./Components/Messages/Dialogs";
 import Music from "./Components/Music/Music";
 import Settings from "./Components/Settings/Settings";
-import {BrowserRouter, Route} from "react-router-dom";
+import {Route} from "react-router-dom";
 import News from "./Components/News/News";
-import {StoreType} from "./redux/redux-store";
-import {ActionTypes} from "./redux/dialogs-reducer";
+import store from "./redux/redux-store";
 import DialogsContainer from "./Components/Messages/DialogsContainer";
 
+import UsersContainer from "./Components/Users/UsersContainer";
+import HeaderContainer from "./Components/Header/HeaderContainer";
 
-type AppProps = {
-    store: StoreType
-    // dispatch: (type: ActionTypes) => void
+const App = (props: any) => {
 
-}
-
-const App = (props: AppProps) => {
     return (
-        <BrowserRouter>
-            <div className="App">
-                <Header/>
-                <div className="mainCon">
-                    <Sidebar friends={props.store.getState().sidebar}/>
+        // <BrowserRouter>
+        <div className="App">
+            <HeaderContainer/>
+            <div className="mainCon">
+                {/*<Sidebar friends={props.store.getState().sidebar}/>*/}
+                <Sidebar friends={store.getState().sidebar}/>
 
-                    <Route path="/Content" render={() =>
-                        <Content profilePage={props.store.getState().profilePage}
-                                 dispatch={props.store.dispatch.bind(props.store)}
-                                 store={props.store}
+                <Route path="/Content/:userId?" render={() =>
+                    <Content
+                        // @ts-ignore
+                        profilePage={store.getState().profilePage}
+                        dispatch={store.dispatch.bind(props.store)}
+                        // @ts-ignore
+                        store={store}
+                    />}/>
+                <Route path="/Dialogs" render={() => <DialogsContainer/>}/>
+                <Route path="/News" render={() => <News/>}/>
+                <Route path="/Music" render={() => <Music/>}/>
+                <Route path="/Settings" render={() => <Settings/>}/>
+                <Route path="/Users" render={() => <UsersContainer/>}/>
 
-
-                        />}/>
-                    <Route path="/Dialogs" render={() =>
-                        <DialogsContainer
-                            store={props.store}
-                            // dialogsPage={props.store.getState().dialogsPage}
-                            // dispatch={props.store.dispatch.bind(props.store)}
-                            //если не сделать bind, this._state... будет undefined
-                            // before dispatch
-                            // updateNewPostText={props.store.updateNewPostText.bind(props.store)}
-                            // addPost={props.store.addPost.bind(props.store)}
-                        />}/>
-                    <Route path="/News" render={() => <News/>}/>
-                    <Route path="/Music" render={() => <Music/>}/>
-                    <Route path="/Settings" render={() => <Settings/>}/>
-
-                </div>
-                <Footer/>
             </div>
-        </BrowserRouter>
+            <Footer/>
+        </div>
+        // </BrowserRouter>
     );
 }
 
