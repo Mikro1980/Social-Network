@@ -1,11 +1,9 @@
-import React from "react";
+import React, {useState} from "react";
 import classes from "./Users.module.css"
-import {NewUsersType, UsersType} from "../../redux/redux-store";
-import axios from "axios";
+import {UsersType} from "../../redux/redux-store";
 import * as faker from "faker";
 import {NavLink} from "react-router-dom";
 import {usersAPI} from "../../api/api";
-import {toggleFollowInProgress} from "../../redux/users-reducer";
 
 
 type UserPropsType = {
@@ -16,26 +14,36 @@ type UserPropsType = {
 }
 
 const Users = (props: any) => {
+    console.log(props.currentPage)
 
     let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize) //Math.ceil округляет в большую сторону// const addedPage = (num: number) => {
-    let pages = []
-    for (let i = 1; i <= 10; i++) {
+    let initialPages: Array<number> = []
+    for (let i = props.currentPage; i <= props.currentPage + 9; i++) {
         // for (let i = 1; i <= pagesCount; i++) {
-        pages.push(i)
+        initialPages.push(i)
     }
+    const [pages, setPages] = useState(initialPages)
 
+    const nextPages = (arr: any) => {
+        setPages(arr.map((el: number) => el + 1))
+    }
+    const prevPages = (arr: any) => {
+
+        setPages(arr.map((el: number) => el - 1))
+    }
     return (
         <div className={classes.mainCon}>
             <div>
+                {pages[9] - 10 > 0 && <span onClick={() => prevPages(pages)}>...</span>}
                 {pages.map(el => {
-                    return <span
-                        onClick={(e) => {
-                            props.onPageChanged(el)
-                        }
-                        }
-                        className={props.currentPage === el ? classes.selectedPage : classes.pageNum}>{el}</span>
+                    return <span key={Math.random()}
+                                 onClick={(e) => {
+                                     props.onPageChanged(el)
+                                 }}
+                                 className={props.currentPage === el ? classes.selectedPage : classes.pageNum}>
+                        {el}</span>
                 })}
-                <span onClick={() => alert('next')}>...</span>
+                <span onClick={() => nextPages(pages)}>...</span>
             </div>
             <div className={classes.dialogsLeft}>
                 {props.users.map((el: UsersType) =>
@@ -53,37 +61,25 @@ const Users = (props: any) => {
             alt="ava"/>
     </NavLink>
 
-
     </div>
                         <div>
                             {el.followed ?
                                 <button
-                                    disabled={props.followInProgress.some((id:number)=>id===el.id)}
+                                    disabled={props.followInProgress.some((id: number) => id === el.id)}
                                     onClick={() => {
-                                        props.toggleFollowInProgress(true,el.id)
-                                        usersAPI.unFollowUser(el.id).then(response => {
-                                            if (response.data.resultCode === 0) {
-                                                props.unfollow(el.id)
-                                            }
-                                            props.toggleFollowInProgress(false,el.id)
-                                        })
+                                        props.unFollowThunkCreator(el.id)
                                     }}>Follow</button> :
                                 <button
-                                    disabled={props.followInProgress.some((id:number)=>id===el.id)}
+                                    disabled={props.followInProgress.some((id: number) => id === el.id)}
                                     onClick={() => {
-                                        props.toggleFollowInProgress(true,el.id)
-                                        usersAPI.followUser(el.id).then(response => {
-                                            if (response.data.resultCode === 0) {
-                                                props.follow(el.id)
-                                            }
-                                            props.toggleFollowInProgress(false,el.id)
-                                        })
-                                    }}>Unfollow</button>}
+                                        props.followThunkCreator(el.id)
+                                    }
+                                    }>Unfollow</button>}
                         </div>
                     </span>
                             </div>
                             <span>{el.status}</span>
-                            <span className={classes.location}>{'Russia'} {'Moscow'}</span>
+                            <span className={classes.location}>Russia Moscow</span>
 
                         </div>
                     </div>)

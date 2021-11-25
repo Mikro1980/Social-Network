@@ -13,6 +13,7 @@ import DialogsContainer from "./Components/Messages/DialogsContainer";
 
 import UsersContainer from "./Components/Users/UsersContainer";
 import HeaderContainer from "./Components/Header/HeaderContainer";
+import Login from "./Components/Login/Login";
 
 const App = (props: any) => {
 
@@ -37,6 +38,7 @@ const App = (props: any) => {
                 <Route path="/Music" render={() => <Music/>}/>
                 <Route path="/Settings" render={() => <Settings/>}/>
                 <Route path="/Users" render={() => <UsersContainer/>}/>
+                <Route path="/Login" render={() => <Login/>}/>
 
             </div>
             <Footer/>

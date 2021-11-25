@@ -9,9 +9,12 @@ import {ActionTypes, addDialogAC, updateNewDialogAC} from "../../redux/dialogs-r
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
+import {LoginHoc} from "../../hoc/hoc";
 
 type MapStateToPropsType = {
-    dialogsPage: DialogsPageType
+    dialogsPage: DialogsPageType,
+    isAuth: boolean
+
 }
 type MapDispatchToPropsType = {
     addDialog: () => void
@@ -21,7 +24,8 @@ type MapDispatchToPropsType = {
 
 let mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     return {
-        dialogsPage: state.dialogsPage
+        dialogsPage: state.dialogsPage,
+        isAuth: state.auth.isAuth
     }
 }
 let mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
@@ -36,6 +40,6 @@ let mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
 }
 const DialogsContainer = connect<MapStateToPropsType, MapDispatchToPropsType, any, AppStateType>(
     mapStateToProps, mapDispatchToProps
-)(Dialogs)
+)(LoginHoc(Dialogs))
 
 export default DialogsContainer;

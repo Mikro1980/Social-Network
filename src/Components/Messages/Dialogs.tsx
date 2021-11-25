@@ -8,6 +8,7 @@ import {
 
 } from "../../redux/redux-store";
 import {ActionTypes, addDialogAC, updateNewDialogAC} from "../../redux/dialogs-reducer";
+import {Redirect} from "react-router-dom";
 
 type DialogProps = {
     addDialog: () => void
@@ -16,6 +17,7 @@ type DialogProps = {
     dialogs:any
     // value:any
     messages:any
+    isAuth:boolean
 }
 const Dialogs = (props: DialogProps) => {
     let newDialogElement = React.createRef<HTMLTextAreaElement>();
@@ -36,11 +38,12 @@ const Dialogs = (props: DialogProps) => {
     }
 
 
-    console.log(props.dialogsPage.dialogs)
+
     let renderedPerson = props.dialogsPage.dialogs.map((p: any) => (
 
         <div key={p.id} className={classes.person}><DialogItem id={p.id} name={p.name}/></div>//см.коммент ниже
     ));
+    console.log(props.isAuth)
 
     return (
         <div className={classes.mainCon}>

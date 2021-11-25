@@ -1,9 +1,11 @@
-import {combineReducers, createStore, Store} from "redux";
+import {applyMiddleware, combineReducers, createStore, Store} from "redux";
 import profileReducer from "./profile-reducer";
 import dialogsReducer, {ActionTypes} from "./dialogs-reducer";
 import sidebarReducer from "./sidebar-reducer";
 import usersReducer from "./users-reducer";
-import authReducer, {setAuthUserDataAC} from "./auth-reducer";
+import authReducer from "./auth-reducer";
+import thunkMiddleware from 'redux-thunk';
+import {reducer as formReducer} from 'redux-form';
 
 export type StoreType = {
     _state: RootStateType
@@ -37,13 +39,13 @@ export type UsersPageType = {
     users: Array<UsersType>
     pageSize: number
     totalUsersCount: number
-    currentPage:number
-    isFetching:boolean
-    followInProgress:Array<number>
+    currentPage: number
+    isFetching: boolean
+    followInProgress: Array<number>
 
 }
 export type NewUsersType = {
-users:Array<UsersType>
+    users: Array<UsersType>
 }
 export type UsersType = {
     photos: string;
@@ -75,12 +77,13 @@ let rootReducer = combineReducers({
     dialogsPage: dialogsReducer,
     usersPage: usersReducer,
     sidebar: sidebarReducer,
-    auth:authReducer
+    auth: authReducer,
+    form: formReducer
 });
 
 export type AppStateType = ReturnType<typeof rootReducer>
 
-export const store: Store<AppStateType> = createStore(rootReducer)
+export const store: Store<AppStateType> = createStore(rootReducer, applyMiddleware(thunkMiddleware))
 // @ts-ignore
 window.store = store;
 export default store;
