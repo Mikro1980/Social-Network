@@ -24,7 +24,6 @@ export const authReducer = (state: initialStateType = initialState, action: Acti
             return {
                 ...state,
                 ...action.payload,
-
             }
         case SIGN_IN:
             return {

@@ -29,7 +29,7 @@ export type SidebarType = {
 export type DialogsPageType = {
     dialogs: Array<DialogType>
     messages: Array<MessageType>
-    newDialog: string
+    // newDialog: string
 }
 export type ProfilePageType = {
     posts: Array<PostType>

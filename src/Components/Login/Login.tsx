@@ -8,12 +8,16 @@ import {Redirect} from "react-router-dom";
 
 const LoginReduxForm = reduxForm({form: 'login'})(LoginForm)
 
-const Login = (props:any) => {
+const Login = (props: any) => {
     const onSubmit = (formData: any) => {
-        props.signMeIn(formData.email, formData.password, formData.rememberMe)
+        
+        props.signMeIn(
+            formData.email,
+            formData.password,
+            formData.rememberMe)
 
     }
-    if(props.isAuth){
+    if (props.isAuth) {
         return <Redirect to={"/content"}/>
     }
     return (
@@ -24,8 +28,8 @@ const Login = (props:any) => {
     )
 
 }
-const mapStateToProps =(state:any)=>({
-    isAuth:state.auth.isAuth
+const mapStateToProps = (state: any) => ({
+    isAuth: state.auth.isAuth
 })
 
-export default connect(mapStateToProps,{signMeIn})(Login);
+export default connect(mapStateToProps, {signMeIn})(Login);

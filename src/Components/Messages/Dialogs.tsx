@@ -4,44 +4,33 @@ import DialogItem from "./DialogItem";
 import {
     DialogsPageType,
     MessageType,
-    DialogType,
-
 } from "../../redux/redux-store";
-import {ActionTypes, addDialogAC, updateNewDialogAC} from "../../redux/dialogs-reducer";
-import {Redirect} from "react-router-dom";
+import {AddMessageFormRedux} from "../InputForm/addMessageForm";
 
 type DialogProps = {
-    addDialog: () => void
+    addDialog: (text: string) => void
     changeDialog: (text: string) => void
     dialogsPage: DialogsPageType
-    dialogs:any
-    // value:any
-    messages:any
-    isAuth:boolean
+    dialogs: any
+    messages: any
+    isAuth: boolean
 }
 const Dialogs = (props: DialogProps) => {
-    let newDialogElement = React.createRef<HTMLTextAreaElement>();
 
-    const addDialogHandler = () => {
-        props.addDialog();
-    }
-    const onDialogChange = () => {
-        if (newDialogElement.current) {
-            let text = newDialogElement.current.value
-            props.changeDialog(text)
-        }
-    }
     let onKeyPressHandler = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (e.code === 'Enter') {
-            addDialogHandler()
+            // addDialogHandler()
         } else return
     }
 
-
-
+    const addNewMessage = (value: any) => {
+        props.addDialog(value.newMessageBody);
+    }
     let renderedPerson = props.dialogsPage.dialogs.map((p: any) => (
 
-        <div key={p.id} className={classes.person}><DialogItem id={p.id} name={p.name}/></div>//см.коммент ниже
+        <div key={p.id} className={classes.person}><DialogItem id={p.id}
+                                                               name={p.name}/>
+        </div>//см.коммент ниже
     ));
     console.log(props.isAuth)
 
@@ -57,12 +46,8 @@ const Dialogs = (props: DialogProps) => {
                 {props.dialogsPage.messages.map((d: MessageType) => ( // тут используем МАР напрямую, без переменной
                     <div key={d.id} className={classes.myDialog}>{d.msg}</div>
                 ))}
-                <textarea ref={newDialogElement}
-                          value={props.dialogsPage.newDialog}
-                          onChange={onDialogChange}
-                          onKeyPress={onKeyPressHandler}
-                />
-                <button onClick={addDialogHandler}>send</button>
+                <AddMessageFormRedux onSubmit={addNewMessage}/>
+
             </div>
         </div>
     )

@@ -3,7 +3,7 @@ import {profileAPI, usersAPI} from "../api/api";
 
 
 export type ActionTypes =
-    ReturnType<typeof addPostAC> | ReturnType<typeof updateNewPostAC> |
+    ReturnType<typeof addPostAC> |
     ReturnType<typeof addLikeAC> | ReturnType<typeof setUserProfileAC> | ReturnType<typeof getUserStatusAC>
 
 let initialState = {
@@ -44,7 +44,7 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
         let newPostTxt = {
             id: new Date().getTime(),
             src: 'https://citaty.info/files/characters/636.jpg',
-            message: state.newPost.trim(),
+            message: action.text.trim(),
             likes: 0
         }
         if (newPostTxt.message) {
@@ -53,16 +53,10 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
                 posts: [newPostTxt, ...state.posts],
                 newPost: ''
             }
-            // stateCopy.posts.push(newPostTxt);
-            // stateCopy.newPost = ''
-        } else return state;
-    } else if (action.type === UPDATE_POST_TEXT) {
 
-        return {
-            ...state,
-            newPost: action.newText
-        }
-    } else if (action.type === ADD_LIKE) {
+        } else return state;
+    }
+    else if (action.type === ADD_LIKE) {
         let copyState = {...state}
         let clickedPost = copyState.posts.filter(el => el.id === action.id);
         clickedPost[0].likes = clickedPost[0].likes + 1
@@ -79,7 +73,6 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
 }
 
 const ADD_POST = 'ADD-POST';
-const UPDATE_POST_TEXT = 'UPDATE-POST-TEXT';
 const ADD_LIKE = 'ADD-LIKE';
 const SET_USER_PROFILE = 'SET-USER-PROFILE';
 const SET_STATUS = 'SET-STATUS';
@@ -91,9 +84,10 @@ export const setUserProfileAC = (profile: any) => {
         profile: profile
     } as const
 }
-export const addPostAC = () => {
+export const addPostAC = (text:string) => {
     return {
-        type: ADD_POST
+        type: ADD_POST,
+        text
     } as const
 }
 export const addLikeAC = (id: number) => {
@@ -102,12 +96,7 @@ export const addLikeAC = (id: number) => {
         id: id
     } as const
 }
-export const updateNewPostAC = (newText: string) => {
-    return {
-        type: UPDATE_POST_TEXT,
-        newText: newText
-    } as const
-}
+
 export const getUserStatusAC = (status: string) => {
     return {
         type: SET_STATUS,

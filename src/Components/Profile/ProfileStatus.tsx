@@ -27,7 +27,6 @@ export class ProfileStatus extends React.Component<any, any> {
 
     render() {
         return (<div>
-            {/*<div>this is the status:{this.props.status}</div>*/}
             {this.state.editMode && (<div><input
                 onDoubleClick={this.toggleEditMode}
                 onChange={this.setStatus}

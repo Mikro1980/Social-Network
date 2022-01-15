@@ -11,40 +11,42 @@ let initialState = {
         {id: 1, msg: 'HI'},
         {id: 2, msg: "Hello!"},
         {id: 3, msg: "Hola!"}
-    ],
-    newDialog: ''
+    ]
+    // ,
+    // newDialog: ''
 }
 const dialogsReducer = (state: DialogsPageType = initialState, action: ActionTypes): DialogsPageType => {
     if (action.type === ADD_DIALOG) {
         let newDialogMsg = {
             id: new Date().getTime(),
-            msg: state.newDialog.trim()
+            msg: action.text.trim(),
         };
         if (newDialogMsg.msg) {
+
             return {
                 ...state,
                 messages: [...state.messages, newDialogMsg],
-                newDialog: ''
+                // newDialog: ''
             }
             // stateCopy.messages.push(newDialogMsg);
             // stateCopy.newDialog = ''
         } else return state;
-    } else if (action.type === UPDATE_NEW_DIALOG_TEXT) {
-        return {
-            ...state,
-            newDialog: action.newText
-        }
-
     }
+    // else if (action.type === UPDATE_NEW_DIALOG_TEXT) {
+    //     return {
+    //         ...state,
+            // newDialog: action.newText
+    //     }
+    // }
     return state
 }
 export type ActionTypes =
-    ReturnType<typeof addDialogAC> | ReturnType<typeof updateNewDialogAC> |
+    ReturnType<typeof addDialogAC> |
     ReturnType<typeof addPostAC> | ReturnType<typeof updateNewPostAC> |
     ReturnType<typeof addLikeAC>
 
 const ADD_DIALOG = 'ADD-DIALOG';
-const UPDATE_NEW_DIALOG_TEXT = 'UPDATE-NEW-DIALOG-TEXT';
+// const UPDATE_NEW_DIALOG_TEXT = 'UPDATE-NEW-DIALOG-TEXT';
 const ADD_POST = 'ADD-POST';
 const UPDATE_POST_TEXT = 'UPDATE-POST-TEXT';
 const ADD_LIKE = 'ADD-LIKE';
@@ -66,16 +68,17 @@ export const updateNewPostAC = (newText: string) => {
         newText: newText
     } as const
 }
-export const addDialogAC = () => {
+export const addDialogAC = (text:string) => {
     return {
-        type: ADD_DIALOG
+        type: ADD_DIALOG,
+        text
     } as const
 }
-export const updateNewDialogAC = (newText: string) => {
-    return {
-        type: UPDATE_NEW_DIALOG_TEXT,
-        newText: newText
-    } as const
-}
+// export const updateNewDialogAC = (newText: string) => {
+//     return {
+//         type: UPDATE_NEW_DIALOG_TEXT,
+//         newText: newText
+//     } as const
+// }
 
 export default dialogsReducer;

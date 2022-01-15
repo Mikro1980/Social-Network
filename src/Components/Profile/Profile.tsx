@@ -36,9 +36,7 @@ const Profile = (props: ProfilePropsType) => {
             <div className={classes.profileMain}>
                 <ProfileInfo profile={props.profile} status={props.status} updateStatus={props.updateStatus}/>
                 <PostsContainer
-                    // profilePage={props.profilePage}
                     store={props.store}
-                    // newPost={props.profilePage.newPost}
                 />
                 {renderedItem}
             </div>

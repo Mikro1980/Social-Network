@@ -1,6 +1,6 @@
 import React from "react";
-import {addPostAC, updateNewPostAC} from "../../redux/profile-reducer";
-import {ProfilePageType, StoreType} from "../../redux/redux-store";
+import {addPostAC} from "../../redux/profile-reducer";
+import {StoreType} from "../../redux/redux-store";
 import Posts from "./Posts";
 
 type PostProps = {
@@ -9,15 +9,12 @@ type PostProps = {
 
 const PostsContainer = (props: PostProps) => {
 
-    const addPostHandler = () => {
-        props.store.dispatch(addPostAC())
-    }
-    const onPostChange = (text: string) => {
-        props.store.dispatch(updateNewPostAC(text))
+    const addPostHandler = (text:string) => {
+        props.store.dispatch(addPostAC(text))
     }
 
     return (
-        <Posts addPost={addPostHandler} onPostChange={onPostChange}
+        <Posts addPost={addPostHandler}
                newPost={props.store.getState().profilePage.newPost}/>)
 }
 
