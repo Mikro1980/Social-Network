@@ -13,6 +13,11 @@ import {
 } from "../../redux/users-reducer";
 import Users from "./Users";
 import Preloader from "../Preloader/preloader";
+import {
+    getCurrentPageSelector, getFollowInProgressSelector, getIsFetchingSelector,
+    getPageSizeSelector, getTotalUsersCountSelector,
+    getUsersSelector
+} from "../../redux/users-selectors";
 
 class UsersAPIComponent extends React.Component<any, any> {
     componentDidMount() {
@@ -61,14 +66,7 @@ type MapStateToPropsType = {
     isFetching: boolean
     followInProgress: Array<number>
 }
-// type MapDispatchToPropsType = {
-//     follow: (id: number) => void
-//     unfollow: (id: number) => void
-//     setUsers: (users: Array<UsersType>) => void
-//     changePage: (page: number) => void
-//     setTotalUsersCount: (totalCount: number) => void
-//     toggleIsFetching: (isFetching: boolean) => void
-// }
+
 
 type UserPropsType = {
     users: Array<UsersType>
@@ -79,12 +77,12 @@ type UserPropsType = {
 
 let mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     return {
-        users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        totalUsersCount: state.usersPage.totalUsersCount,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
-        followInProgress: state.usersPage.followInProgress
+        users: getUsersSelector(state),
+        pageSize:getPageSizeSelector(state),
+        totalUsersCount: getTotalUsersCountSelector(state),
+        currentPage: getCurrentPageSelector(state),
+        isFetching: getIsFetchingSelector(state),
+        followInProgress: getFollowInProgressSelector(state)
     }
 }
 // let mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {

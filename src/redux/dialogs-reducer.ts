@@ -12,32 +12,20 @@ let initialState = {
         {id: 2, msg: "Hello!"},
         {id: 3, msg: "Hola!"}
     ]
-    // ,
-    // newDialog: ''
 }
 const dialogsReducer = (state: DialogsPageType = initialState, action: ActionTypes): DialogsPageType => {
     if (action.type === ADD_DIALOG) {
         let newDialogMsg = {
             id: new Date().getTime(),
             msg: action.text.trim(),
-        };
+        }
         if (newDialogMsg.msg) {
-
             return {
                 ...state,
                 messages: [...state.messages, newDialogMsg],
-                // newDialog: ''
             }
-            // stateCopy.messages.push(newDialogMsg);
-            // stateCopy.newDialog = ''
         } else return state;
     }
-    // else if (action.type === UPDATE_NEW_DIALOG_TEXT) {
-    //     return {
-    //         ...state,
-            // newDialog: action.newText
-    //     }
-    // }
     return state
 }
 export type ActionTypes =
@@ -46,7 +34,6 @@ export type ActionTypes =
     ReturnType<typeof addLikeAC>
 
 const ADD_DIALOG = 'ADD-DIALOG';
-// const UPDATE_NEW_DIALOG_TEXT = 'UPDATE-NEW-DIALOG-TEXT';
 const ADD_POST = 'ADD-POST';
 const UPDATE_POST_TEXT = 'UPDATE-POST-TEXT';
 const ADD_LIKE = 'ADD-LIKE';
@@ -68,17 +55,11 @@ export const updateNewPostAC = (newText: string) => {
         newText: newText
     } as const
 }
-export const addDialogAC = (text:string) => {
+export const addDialogAC = (text: string) => {
     return {
         type: ADD_DIALOG,
         text
     } as const
 }
-// export const updateNewDialogAC = (newText: string) => {
-//     return {
-//         type: UPDATE_NEW_DIALOG_TEXT,
-//         newText: newText
-//     } as const
-// }
 
 export default dialogsReducer;

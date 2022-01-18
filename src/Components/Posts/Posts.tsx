@@ -13,7 +13,7 @@ const Posts = (props: PostPropsType) => {
     return (
         <div className={classes.posts}>
             <h3>My posts</h3>
-            <AddMessageFormRedux onSubmit={addPostHandler}/>
+            <AddMessageFormRedux onSubmit={addPostHandler} />
 
         </div>
     )

@@ -1,5 +1,6 @@
 import React from "react";
 import {Field} from "redux-form";
+import {requiredField} from "../Validators";
 
 const LoginForm = (props: any) => {
 
@@ -8,7 +9,9 @@ const LoginForm = (props: any) => {
             <Field placeholder={'email'}
                    style={{marginBottom: '5px'}}
                    component={'input'}
-                   name={'email'}/>
+                   name={'email'}
+
+            />
             <Field placeholder={'password'}
                    type={'password'}
                    style={{display: 'block', marginBottom: '5px'}}
@@ -20,7 +23,8 @@ const LoginForm = (props: any) => {
                 Remember me
             </div>
             <button>Log in</button>
-            {/*<button onClick={props.onSubmit}>Log in</button>*/}
+
+
         </form>
     )
 

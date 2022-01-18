@@ -1,10 +1,8 @@
 import React, {useState} from "react";
 import classes from "./Users.module.css"
 import {UsersType} from "../../redux/redux-store";
-import * as faker from "faker";
 import {NavLink} from "react-router-dom";
-import {usersAPI} from "../../api/api";
-
+import {Paginator} from "./Paginator";
 
 type UserPropsType = {
     users: Array<UsersType>
@@ -14,37 +12,14 @@ type UserPropsType = {
 }
 
 const Users = (props: any) => {
-    console.log(props.currentPage)
-
-    let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize) //Math.ceil округляет в большую сторону// const addedPage = (num: number) => {
-    let initialPages: Array<number> = []
-    for (let i = props.currentPage; i <= props.currentPage + 9; i++) {
-        // for (let i = 1; i <= pagesCount; i++) {
-        initialPages.push(i)
-    }
-    const [pages, setPages] = useState(initialPages)
-
-    const nextPages = (arr: any) => {
-        setPages(arr.map((el: number) => el + 1))
-    }
-    const prevPages = (arr: any) => {
-
-        setPages(arr.map((el: number) => el - 1))
-    }
     return (
         <div className={classes.mainCon}>
-            <div>
-                {pages[9] - 10 > 0 && <span onClick={() => prevPages(pages)}>...</span>}
-                {pages.map(el => {
-                    return <span key={Math.random()}
-                                 onClick={(e) => {
-                                     props.onPageChanged(el)
-                                 }}
-                                 className={props.currentPage === el ? classes.selectedPage : classes.pageNum}>
-                        {el}</span>
-                })}
-                <span onClick={() => nextPages(pages)}>...</span>
-            </div>
+            <Paginator totalUsersCount={props.totalUsersCount}
+                       pageSize={props.pageSize}
+                       currentPage={props.currentPage}
+                       onPageChanged={props.onPageChanged}
+
+            />
             <div className={classes.dialogsLeft}>
                 {props.users.map((el: UsersType) =>
                     <div key={el.id}>
@@ -56,8 +31,7 @@ const Users = (props: any) => {
 
         <img
             className={classes.ava}
-            src={el.photos.small ? `${el.photos.small}` : faker.image.avatar()}
-            // src={`${el.photos.small}`}
+            src={el.photos.small ? `${el.photos.small}` : 'https://www.seekpng.com/png/detail/847-8474751_download-empty-profile.png'}
             alt="ava"/>
     </NavLink>
 
@@ -79,7 +53,8 @@ const Users = (props: any) => {
                     </span>
                             </div>
                             <span>{el.status}</span>
-                            <span className={classes.location}>Russia Moscow</span>
+                            <span
+                                className={classes.location}>Russia Moscow</span>
 
                         </div>
                     </div>)
